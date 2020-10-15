@@ -1,21 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-export default function App() {
+import HomeScreen from "./src/screens/HomeScreen";
+import SignInScreen from "./src/screens/SignInScreen";
+import SignUpScreen from "./src/screens/SignUpScreen";
+
+const HomeStack = createStackNavigator();
+const AtuhStack = createStackNavigator();
+
+const HomeStackScreen = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="Home Screen"
+        component={HomeScreen}
+      ></HomeStack.Screen>
+    </HomeStack.Navigator>
+  );
+};
+
+const AtuhStackScreen = () =>{
+  return(
+    <AtuhStack.Navigator initialRouteName="SignIn">
+    <AtuhStack.Screen name="SignIn" component={SignInScreen} options={{headerShown:false}}></AtuhStack.Screen>
+    <AtuhStack.Screen name="SignUp" component={SignUpScreen} options={{headerShown:false}}></AtuhStack.Screen>
+    </AtuhStack.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+function App() {
+  return (
+    <NavigationContainer>
+      {/*<HomeStackScreen></HomeStackScreen>*/}
+      <AtuhStackScreen></AtuhStackScreen>
+    </NavigationContainer>
+  );
+}
+
+export default App;

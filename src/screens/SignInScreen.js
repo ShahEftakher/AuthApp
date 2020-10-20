@@ -1,12 +1,17 @@
 import { useLinkProps } from "@react-navigation/native";
-import React from "react";
+import React ,{useState} from "react";
 import { View, StyleSheet } from "react-native";
 import { Input, Button, Card } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../providers/AuthProvider";
+import { getDataJSON } from "../functions/AsyncStorageFunctions";
+
 
 const SignInScreen = (props) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <AuthContext.Consumer>
       {(auth) => (
@@ -17,19 +22,32 @@ const SignInScreen = (props) => {
             <Input
               placeholder="Email Address"
               leftIcon={<MaterialIcons name="email" size={24} color="black" />}
+              onChangeText={function (currentInput) {
+                setEmail(currentInput);
+              }}
             ></Input>
             <Input
               placeholder="Password"
               leftIcon={<Entypo name="lock" size={24} color="black" />}
               secureTextEntry={true}
+              onChangeText={function (currentInput) {
+                setPassword(currentInput);
+              }}
             ></Input>
 
             <Button
               icon={<Entypo name="login" size={24} color="white" />}
               title="Sign In"
               type="solid"
-              onPress={function () {
-                auth.setIsLoggedIn(true);
+              onPress={async function () {
+                let uesrData = await getDataJSON(email);
+                if(uesrData.password == password){
+                  auth.setIsLoggedIn(true);
+                  auth.setCurrentUser(uesrData);
+                }else{
+                  alert("Wrong Credentials");
+                  console.log(uesrData);
+                }
               }}
             ></Button>
 

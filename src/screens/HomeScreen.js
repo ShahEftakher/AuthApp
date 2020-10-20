@@ -9,7 +9,7 @@ const HomeScreen = () => {
     <AuthContext.Consumer>
       {(auth) => (
         <View>
-          <Text style={styles.textStyle}>Welcome To HomeScreen </Text>
+          <Text style={styles.textStyle}>Welcome {auth.currentUser.name}! </Text>
 
           <Button
           type="outline"
@@ -17,6 +17,7 @@ const HomeScreen = () => {
           onPress={
               function(){
                   auth.setIsLoggedIn(false);
+                  auth.setCurrentUser({});
               }
           }
           >

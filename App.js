@@ -6,6 +6,8 @@ import HomeScreen from "./src/screens/HomeScreen";
 import SignInScreen from "./src/screens/SignInScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 
+import { AuthProvider, AuthContext } from "./src/providers/AuthProvider";
+
 const HomeStack = createStackNavigator();
 const AtuhStack = createStackNavigator();
 
@@ -20,21 +22,39 @@ const HomeStackScreen = () => {
   );
 };
 
-const AtuhStackScreen = () =>{
-  return(
+const AtuhStackScreen = () => {
+  return (
     <AtuhStack.Navigator initialRouteName="SignIn">
-    <AtuhStack.Screen name="SignIn" component={SignInScreen} options={{headerShown:false}}></AtuhStack.Screen>
-    <AtuhStack.Screen name="SignUp" component={SignUpScreen} options={{headerShown:false}}></AtuhStack.Screen>
+      <AtuhStack.Screen
+        name="SignIn"
+        component={SignInScreen}
+        options={{ headerShown: false }}
+      ></AtuhStack.Screen>
+      <AtuhStack.Screen
+        name="SignUp"
+        component={SignUpScreen}
+        options={{ headerShown: false }}
+      ></AtuhStack.Screen>
     </AtuhStack.Navigator>
   );
-}
+};
 
 function App() {
   return (
-    <NavigationContainer>
-      {/*<HomeStackScreen></HomeStackScreen>*/}
-      <AtuhStackScreen></AtuhStackScreen>
-    </NavigationContainer>
+    <AuthProvider>
+      <AuthContext.Consumer>
+        {(auth) => (
+          <NavigationContainer>
+            {console.log(auth)}
+            {auth.isLoggedIN ? (
+              <HomeStackScreen></HomeStackScreen>
+            ) : (
+              <AtuhStackScreen></AtuhStackScreen>
+            )}
+          </NavigationContainer>
+        )}
+      </AuthContext.Consumer>
+    </AuthProvider>
   );
 }
 

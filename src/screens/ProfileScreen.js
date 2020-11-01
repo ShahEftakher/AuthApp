@@ -26,9 +26,38 @@ const ProfileScreen = (props) => {
             }}
           />
           <Card>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text>Profile PIC here</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Avatar
+                size={300}
+                containerStyle={{
+                  backgroundColor: "#9ae5e5",
+                  flex: 0,
+                  marginLeft: 25,
+                  marginTop: 0,
+                }}
+                rounded
+                icon={{ name: "user", type: "font-awesome", color: "white" }}
+                activeOpacity={1}
+              />
             </View>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text style={styles.textStyle}>{auth.currentUser.name}</Text>
+            <Text></Text>
+            <Text></Text>
+            <Text style={styles.textStyle2}>StuentID: {auth.currentUser.sID}</Text>
+            <Text></Text>
+            <Text></Text>
+            <Text style={styles.textStyle2}>email: {auth.currentUser.email}</Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
           </Card>
         </View>
       )}
@@ -38,6 +67,11 @@ const ProfileScreen = (props) => {
 
 const styles = StyleSheet.create({
   textStyle: {
+    fontSize: 30,
+    color: "blue",
+    alignSelf:"center"
+  },
+  textStyle2: {
     fontSize: 30,
     color: "blue",
   },

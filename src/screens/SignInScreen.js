@@ -1,4 +1,3 @@
-import { useLinkProps } from "@react-navigation/native";
 import React ,{useState} from "react";
 import { View, StyleSheet } from "react-native";
 import { Input, Button, Card } from "react-native-elements";
@@ -17,7 +16,7 @@ const SignInScreen = (props) => {
       {(auth) => (
         <View style={styles.viewStyle}>
           <Card>
-            <Card.Title>Welcome to AtuhApp</Card.Title>
+            <Card.Title>Welcome to BlogApp</Card.Title>
             <Card.Divider></Card.Divider>
             <Input
               placeholder="Email Address"
@@ -41,12 +40,13 @@ const SignInScreen = (props) => {
               type="solid"
               onPress={async function () {
                 let uesrData = await getDataJSON(email);
+                console.log("User: "+ uesrData+"baal");
                 if(uesrData.password == password){
                   auth.setIsLoggedIn(true);
                   auth.setCurrentUser(uesrData);
                 }else{
                   alert("Wrong Credentials");
-                  console.log(uesrData);
+                  //console.log(uesrData);
                 }
               }}
             ></Button>

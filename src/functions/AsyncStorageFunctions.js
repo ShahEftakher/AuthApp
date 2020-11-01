@@ -1,4 +1,5 @@
 import { AsyncStorage } from "react-native";
+import { concat } from "react-native-reanimated";
 
 const setData = async (key, value) => {
   try {
@@ -8,6 +9,16 @@ const setData = async (key, value) => {
     alert(error);
   }
 };
+
+const concatDataJson = async (key, value, listName)=>{
+  console.log(key+" "+value+" "+listName)
+  try {
+    const addData = JSON.stringify(value);
+    await AsyncStorage.setItem(key, listName.concat(addData));
+  } catch (error) {
+    alert(error);
+  }
+} 
 
 const setDataJSON = async (key, value) => {
   try {
@@ -55,4 +66,4 @@ const removeData = async (key) => {
   }
 };
 
-export {setData,setDataJSON,getData,getDataJSON,removeData};
+export {setData,setDataJSON,getData,getDataJSON,removeData,concatDataJson};

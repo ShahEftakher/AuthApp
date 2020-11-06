@@ -1,5 +1,11 @@
-import React, { useState,  useEffect } from "react";
-import { ScrollView, View, StyleSheet, FlatList,AsyncStorage } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  ScrollView,
+  View,
+  StyleSheet,
+  FlatList,
+  AsyncStorage,
+} from "react-native";
 import {
   Card,
   Button,
@@ -21,11 +27,12 @@ import PostCard from "./../components/PostCard";
 const HomeScreen = (props) => {
   const [post, setpost] = useState("");
   const [allPosts, setAllPosts] = useState([]);
+  const input=React.createRef();
 
   const getPosts = async () => {
     try {
       let keys = await AsyncStorage.getAllKeys();
-      
+
       let posts = [];
       if (keys != null) {
         for (let element of keys) {
@@ -44,8 +51,8 @@ const HomeScreen = (props) => {
 
   useEffect(() => {
     getPosts();
-  },[]);
- 
+  }, []);
+
   return (
     <AuthContext.Consumer>
       {(auth) => (
@@ -70,6 +77,7 @@ const HomeScreen = (props) => {
           ></Header>
           <Card>
             <Input
+            ref={input}
               placeholder="What's On Your Mind?"
               leftIcon={<Entypo name="pencil" size={24} color="black" />}
               onChangeText={function (currentPost) {
@@ -80,19 +88,20 @@ const HomeScreen = (props) => {
               title="Post"
               type="outline"
               onPress={function () {
-                var pid = Math.floor(Math.random() * 100);
+                var pid = Math.floor(Math.random() * 200);
                 let newPost = {
                   postID: "PID" + pid,
                   postAuthor: auth.currentUser.name,
                   postBody: post,
-                  postTime: "2 September",
+                  postTime: "07 novemver, 2020",
                   like: [],
                   comments: [],
                 };
-                
+
                 setDataJSON("PID" + pid, newPost);
-               // getPosts();
+                getPosts();
                 setpost("");
+                input.current.clear();
               }}
             />
           </Card>

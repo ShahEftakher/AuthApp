@@ -16,7 +16,7 @@ const NotificationScreen = (props) => {
                 props.navigation.toggleDrawer();
               },
             }}
-            centerComponent={{ text: "The Auth App", style: { color: "#fff" } }}
+            centerComponent={{ text: "The Blog App", style: { color: "#fff" } }}
             rightComponent={{
               icon: "lock-outline",
               color: "#fff",

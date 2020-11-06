@@ -54,7 +54,11 @@ const ProfileScreen = (props) => {
             <Text style={styles.textStyle2}>StuentID: {auth.currentUser.sID}</Text>
             <Text></Text>
             <Text></Text>
-            <Text style={styles.textStyle2}>email: {auth.currentUser.email}</Text>
+            <Text style={styles.textStyle3}>email: {auth.currentUser.email}</Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
             <Text></Text>
             <Text></Text>
             <Text></Text>
@@ -68,12 +72,16 @@ const ProfileScreen = (props) => {
 const styles = StyleSheet.create({
   textStyle: {
     fontSize: 30,
-    color: "blue",
+    color: "#00cccc",
     alignSelf:"center"
   },
   textStyle2: {
     fontSize: 30,
-    color: "blue",
+    color: "#00cccc",
+  },
+  textStyle3: {
+    fontSize: 25,
+    color: "#00cccc",
   },
   viewStyle: {
     flex: 1,

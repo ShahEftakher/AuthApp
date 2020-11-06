@@ -25,6 +25,8 @@ const PostCard = (props) => {
       <Text style={{ fontStyle: "italic" }}> {props.title}</Text>
       <Text
         style={{
+          fontSize:20,
+          fontWeight:"bold",
           paddingVertical: 10,
         }}
       >

@@ -23,7 +23,7 @@ const CommentCard = (props) => {
         </Text>
       </View>
 
-      <Text style={{ fontStyle: "italic" }}> Posted on 10 Aug, 2020</Text>
+      <Text style={{ fontStyle: "italic" }}> {props.commentTime}</Text>
       <Text
         style={{
           paddingVertical: 10,

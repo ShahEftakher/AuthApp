@@ -1,28 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, AsyncStorage } from "react-native";
-import { Text, Card, Button, Avatar, Header,Input } from "react-native-elements";
+import {
+  Text,
+  Card,
+  Button,
+  Avatar,
+  Header,
+  Input,
+} from "react-native-elements";
 import { AuthContext } from "../providers/AuthProvider";
 import { AntDesign, Entypo } from "@expo/vector-icons";
-import { getDataJSON,setDataJSON } from "../functions/AsyncStorageFunctions";
+import { getDataJSON, setDataJSON } from "../functions/AsyncStorageFunctions";
 import { FlatList } from "react-native-gesture-handler";
 
 import CommentCard from "../components/CommentCard";
 
 const PostScreen = (props) => {
-  let pid=props.route.params.paramKey;
-  const [comment, setComment]=useState("");
+  let pid = props.route.params.paramKey;
+  const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [post, setPost] = useState({});
+  const input = React.createRef();
 
-  const getPost = async ()=>{
+  const getPost = async () => {
     let postDetails = await getDataJSON(pid);
-    if(postDetails != null){
+    if (postDetails != null) {
       setPost(postDetails);
-    }else{
+    } else {
       alert("No post");
     }
-  }
-
+  };
+  console.log(pid);
   const getComments = async () => {
     try {
       let keys = await AsyncStorage.getAllKeys();
@@ -31,7 +39,9 @@ const PostScreen = (props) => {
         for (let element of keys) {
           if (element.startsWith("CID")) {
             let comment = await getDataJSON(element);
-            comments.push(comment);
+            if (comment.postID == pid) {
+              comments.push(comment);
+            }
           }
         }
         setComments(comments);
@@ -42,10 +52,10 @@ const PostScreen = (props) => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getComments();
     getPost();
-  },[]);
+  }, []);
 
   return (
     <AuthContext.Consumer>
@@ -91,6 +101,8 @@ const PostScreen = (props) => {
             <Text
               style={{
                 paddingVertical: 10,
+                fontSize: 25,
+                fontWeight: "bold",
               }}
             >
               {post.postBody}
@@ -98,6 +110,7 @@ const PostScreen = (props) => {
           </Card>
           <Card>
             <Input
+              ref={input}
               placeholder="Add a comment"
               leftIcon={<Entypo name="pencil" size={24} color="black" />}
               onChangeText={function (currentComment) {
@@ -108,29 +121,34 @@ const PostScreen = (props) => {
               title="Comment"
               type="outline"
               onPress={function () {
-                var cid = Math.floor(Math.random() * 100);
+                var cid = Math.floor(Math.random() * 500);
                 let newComment = {
                   commentID: "CID" + cid,
                   commentAuthor: auth.currentUser.name,
                   comment: comment,
-                  commentTime: "6 Noverber, 2020",
-                  postID: post.postID
+                  commentTime: "07 Noverber, 2020",
+                  postID: post.postID,
                 };
-                
+
                 setDataJSON("CID" + cid, newComment);
+                getComments();
                 setComment("");
+                input.current.clear();
               }}
             />
           </Card>
-        <FlatList
-        data={comments}
-        renderItem={function({item}){
-          return(<CommentCard
-            author={item.commentAuthor}
-            comment={item.comment}
-            />);
-        }}
-        />
+          <FlatList
+            data={comments}
+            renderItem={function ({ item }) {
+              return (
+                <CommentCard
+                  author={item.commentAuthor}
+                  commentTime={item.commentTime}
+                  comment={item.comment}
+                />
+              );
+            }}
+          />
         </View>
       )}
     </AuthContext.Consumer>

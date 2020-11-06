@@ -49,7 +49,7 @@ const SignInScreen = (props) => {
                 }
               }}
             ></Button>
-            {
+            {/*
               <Button
                 type="clear"
                 icon={<MaterialIcons name="clear" size={22} color="black" />}
@@ -57,7 +57,7 @@ const SignInScreen = (props) => {
                 onPress={function () {
                   AsyncStorage.clear();
                 }}
-              />
+              />*/
             }
 
             <Button

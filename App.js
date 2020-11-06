@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
-import * as firebase from "firebase";
+import firebase from "firebase";
 
 import HomeScreen from "./src/screens/HomeScreen";
 import SignInScreen from "./src/screens/SignInScreen";
@@ -28,7 +28,7 @@ const firebaseConfig = {
   messagingSenderId: "1026029063243",
   appId: "1:1026029063243:web:f9ed79dbadd1ac6c4091ce",
 };
-if (!firebaseConfig.apps.length) {
+if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 

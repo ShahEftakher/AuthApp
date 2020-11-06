@@ -1,3 +1,7 @@
-A basic Authentication app made with react native.
+A basic blog app made with react native.
 
-Created while learning react native.
+Lab 2 and 3
+
+Features:
+1. Authentication with async storage
+2. Database firestore

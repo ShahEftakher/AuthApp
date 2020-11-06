@@ -1,13 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, AsyncStorage } from "react-native";
 import { Text, Card, Button, Avatar, Header,Input } from "react-native-elements";
 import { AuthContext } from "../providers/AuthProvider";
-
 import { AntDesign, Entypo } from "@expo/vector-icons";
+import { getDataJSON,setDataJSON } from "../functions/AsyncStorageFunctions";
+import { FlatList } from "react-native-gesture-handler";
+
+import CommentCard from "../components/CommentCard";
 
 const PostScreen = (props) => {
-  const post =
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
+  let pid=props.route.params.paramKey;
+  const [comment, setComment]=useState("");
+  const [comments, setComments] = useState([]);
+  const [post, setPost] = useState({});
+
+  const getPost = async ()=>{
+    let postDetails = await getDataJSON(pid);
+    if(postDetails != null){
+      setPost(postDetails);
+    }else{
+      alert("No post");
+    }
+  }
+
+  const getComments = async () => {
+    try {
+      let keys = await AsyncStorage.getAllKeys();
+      let comments = [];
+      if (keys != null) {
+        for (let element of keys) {
+          if (element.startsWith("CID")) {
+            let comment = await getDataJSON(element);
+            comments.push(comment);
+          }
+        }
+        setComments(comments);
+      } else {
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(()=>{
+    getComments();
+    getPost();
+  },[]);
+
   return (
     <AuthContext.Consumer>
       {(auth) => (
@@ -44,83 +83,54 @@ const PostScreen = (props) => {
                 activeOpacity={1}
               />
               <Text h4Style={{ padding: 10 }} h4>
-                Dwight Schrute
+                {post.postAuthor}
               </Text>
             </View>
 
-            <Text style={{ fontStyle: "italic" }}> Posted on 10 Aug, 2020</Text>
+            <Text style={{ fontStyle: "italic" }}> {post.title}</Text>
             <Text
               style={{
                 paddingVertical: 10,
               }}
             >
-              {post}
+              {post.postBody}
             </Text>
           </Card>
           <Card>
             <Input
               placeholder="Add a comment"
               leftIcon={<Entypo name="pencil" size={24} color="black" />}
-              onChangeText={function (currentPost) {
-                setPost(currentPost);
-                console.log(currentPost);
+              onChangeText={function (currentComment) {
+                setComment(currentComment);
+              }}
+            />
+            <Button
+              title="Comment"
+              type="outline"
+              onPress={function () {
+                var cid = Math.floor(Math.random() * 100);
+                let newComment = {
+                  commentID: "CID" + cid,
+                  commentAuthor: auth.currentUser.name,
+                  comment: comment,
+                  commentTime: "6 Noverber, 2020",
+                  postID: post.postID
+                };
+                
+                setDataJSON("CID" + cid, newComment);
+                setComment("");
               }}
             />
           </Card>
-          <Card>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Avatar
-                containerStyle={{ backgroundColor: "#9ae5e5" }}
-                rounded
-                icon={{ name: "user", type: "font-awesome", color: "white" }}
-                activeOpacity={1}
-              />
-              <Text h1Style={{ padding: 10 }} h4>
-                ABC
-              </Text>
-            </View>
-
-            <Text style={{ fontStyle: "italic" }}> Posted on 10 Aug, 2020</Text>
-            <Text
-              style={{
-                paddingVertical: 10,
-              }}
-            >
-              That is a big tuna
-            </Text>
-          </Card>
-          <Card>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Avatar
-                containerStyle={{ backgroundColor: "#9ae5e5" }}
-                rounded
-                icon={{ name: "user", type: "font-awesome", color: "white" }}
-                activeOpacity={1}
-              />
-              <Text h1Style={{ padding: 10 }} h4>
-                ESD
-              </Text>
-            </View>
-
-            <Text style={{ fontStyle: "italic" }}> Posted on 10 Aug, 2020</Text>
-            <Text
-              style={{
-                paddingVertical: 10,
-              }}
-            >
-              That is what she said
-            </Text>
-          </Card>
+        <FlatList
+        data={comments}
+        renderItem={function({item}){
+          return(<CommentCard
+            author={item.commentAuthor}
+            comment={item.comment}
+            />);
+        }}
+        />
         </View>
       )}
     </AuthContext.Consumer>

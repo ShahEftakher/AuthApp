@@ -1,11 +1,10 @@
-import React ,{useState} from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, AsyncStorage } from "react-native";
 import { Input, Button, Card } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../providers/AuthProvider";
 import { getDataJSON } from "../functions/AsyncStorageFunctions";
-
 
 const SignInScreen = (props) => {
   const [email, setEmail] = useState("");
@@ -40,16 +39,26 @@ const SignInScreen = (props) => {
               type="solid"
               onPress={async function () {
                 let uesrData = await getDataJSON(email);
-                console.log("User: "+ uesrData+"baal");
-                if(uesrData.password == password){
+                console.log("User: " + uesrData + "baal");
+                if (uesrData.password == password) {
                   auth.setIsLoggedIn(true);
                   auth.setCurrentUser(uesrData);
-                }else{
+                } else {
                   alert("Wrong Credentials");
                   //console.log(uesrData);
                 }
               }}
             ></Button>
+            {
+              <Button
+                type="clear"
+                icon={<MaterialIcons name="clear" size={22} color="black" />}
+                title=" Clean App"
+                onPress={function () {
+                  AsyncStorage.clear();
+                }}
+              />
+            }
 
             <Button
               title="Don't Have an account?"

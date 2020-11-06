@@ -24,7 +24,7 @@ const setDataJSON = async (key, value) => {
   try {
     const newData = JSON.stringify(value);
     await AsyncStorage.setItem(key, newData);
-    alert("Data saved successfully!");
+    //alert("Data saved successfully!");
   } catch (error) {
     alert(error);
   }

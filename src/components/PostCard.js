@@ -4,7 +4,6 @@ import { Card, Button, Text, Avatar } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
 
 const PostCard = (props) => {
-  console.log(props);
   return (
     <Card>
       <View
@@ -41,7 +40,11 @@ const PostCard = (props) => {
         <Button type="solid" title="Comment" 
         onPress={
           function(){
-            props.navigation.navigate("Posts");
+            let pid=props.postID;
+           // console.log("PISsD: "+pid);
+            props.navigation.navigate("Posts", {
+              paramKey: pid,
+            });
           }
         }
         />

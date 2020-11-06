@@ -1,5 +1,5 @@
-import React, { useState, AsyncStorage, useEffect } from "react";
-import { ScrollView, View, StyleSheet, FlatList } from "react-native";
+import React, { useState,  useEffect } from "react";
+import { ScrollView, View, StyleSheet, FlatList,AsyncStorage } from "react-native";
 import {
   Card,
   Button,
@@ -25,7 +25,7 @@ const HomeScreen = (props) => {
   const getPosts = async () => {
     try {
       let keys = await AsyncStorage.getAllKeys();
-      console.log(keys);
+      
       let posts = [];
       if (keys != null) {
         for (let element of keys) {
@@ -37,7 +37,6 @@ const HomeScreen = (props) => {
         setAllPosts(posts);
       } else {
       }
-      return posts;
     } catch (error) {
       console.log(error);
     }
@@ -45,8 +44,8 @@ const HomeScreen = (props) => {
 
   useEffect(() => {
     getPosts();
-  });
-  //console.log(allPosts);
+  },[]);
+ 
   return (
     <AuthContext.Consumer>
       {(auth) => (
@@ -83,17 +82,16 @@ const HomeScreen = (props) => {
               onPress={function () {
                 var pid = Math.floor(Math.random() * 100);
                 let newPost = {
+                  postID: "PID" + pid,
                   postAuthor: auth.currentUser.name,
                   postBody: post,
                   postTime: "2 September",
                   like: [],
                   comments: [],
                 };
-                console.log(pid);
-                console.log(newPost);
+                
                 setDataJSON("PID" + pid, newPost);
-                getPosts();
-                alert("Post Added");
+               // getPosts();
                 setpost("");
               }}
             />
@@ -107,6 +105,7 @@ const HomeScreen = (props) => {
                   author={item.postAuthor}
                   title={item.postTime}
                   postBody={item.postBody}
+                  postID={item.postID}
                   navigation={props.navigation}
                 />
               );

@@ -63,7 +63,7 @@ const SignUpScreen = (props) => {
                 password:password
               };
               setDataJSON(email,newuser);
-              props.navigation.navigate("SingIn");
+              props.navigation.navigate("SignIn");
             }
           }
         ></Button>

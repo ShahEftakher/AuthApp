@@ -1,6 +1,7 @@
 A basic Blog application made with react native.
 
 Lab 2 + 3
+
 Design:
 1. 6 screens with Stack, Drawer, Tab navigation
 2. UI using react native elements

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet, AsyncStorage } from "react-native";
 import { Text, Card, Button, Avatar, Header } from "react-native-elements";
+import NotificationCard from "../components/NotificationCard";
 import { AuthContext } from "../providers/AuthProvider";
 const NotificationScreen = (props) => {
   return (
@@ -25,40 +26,8 @@ const NotificationScreen = (props) => {
               },
             }}
           />
-          <Card>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Avatar
-                containerStyle={{ backgroundColor: "cyan" }}
-                rounded
-                icon={{
-                  name: "thumbs-o-up",
-                  type: "font-awesome",
-                  color: "black",
-                }}
-                activeOpacity={1}
-              />
-              <Text style={{ paddingHorizontal: 10 }}>
-                Pam Beesley Liked Your Post.
-              </Text>
-            </View>
-          </Card>
-          <Card>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Avatar
-                containerStyle={{ backgroundColor: "cyan" }}
-                rounded
-                icon={{
-                  name: "thumbs-o-up",
-                  type: "font-awesome",
-                  color: "black",
-                }}
-                activeOpacity={1}
-              />
-              <Text style={{ paddingHorizontal: 10 }}>
-                Pam Beesley Liked Your Post.
-              </Text>
-            </View>
-          </Card>
+          <NotificationCard user="ESD" />
+          <NotificationCard user="ABC"/>
         </View>
       )}
     </AuthContext.Consumer>

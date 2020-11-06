@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { Card, Button, Text, Avatar } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
 
-const NotificationCard = () =>{
+const NotificationCard = (props) =>{
     return(
         <Card>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -18,7 +18,7 @@ const NotificationCard = () =>{
                 activeOpacity={1}
               />
               <Text style={{ paddingHorizontal: 10 }}>
-                Pam Beesley Liked Your Post.
+                {props.user} Liked Your Post.
               </Text>
             </View>
           </Card>

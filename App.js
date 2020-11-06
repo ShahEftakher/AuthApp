@@ -4,11 +4,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
+import * as firebase from "firebase";
 
 import HomeScreen from "./src/screens/HomeScreen";
 import SignInScreen from "./src/screens/SignInScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
-import PostScreen from "./src/screens/PostScreen"
+import PostScreen from "./src/screens/PostScreen";
 import { AuthProvider, AuthContext } from "./src/providers/AuthProvider";
 import NotificationScreen from "./src/screens/NotificationScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
@@ -18,7 +19,18 @@ const HomeTab = createMaterialBottomTabNavigator();
 const AppDrawer = createDrawerNavigator();
 const HomeStack = createStackNavigator();
 
-
+const firebaseConfig = {
+  apiKey: "AIzaSyDoRAqyiCKKZB13G-7IAp3CL_y9372jH1o",
+  authDomain: "blog-59026.firebaseapp.com",
+  databaseURL: "https://blog-59026.firebaseio.com",
+  projectId: "blog-59026",
+  storageBucket: "blog-59026.appspot.com",
+  messagingSenderId: "1026029063243",
+  appId: "1:1026029063243:web:f9ed79dbadd1ac6c4091ce",
+};
+if (!firebaseConfig.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 const AppDrawerScreen = () => {
   return (
@@ -100,11 +112,10 @@ const HomeStackScreen = () => {
         options={{ headerShown: false }}
       ></HomeStack.Screen>
       <HomeStack.Screen
-      name="Posts"
-      component={PostScreen}
-      options={{headerShown: false}}
-      >
-      </HomeStack.Screen>
+        name="Posts"
+        component={PostScreen}
+        options={{ headerShown: false }}
+      ></HomeStack.Screen>
     </HomeStack.Navigator>
   );
 };

@@ -5,6 +5,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { setDataJSON } from "../functions/AsyncStorageFunctions";
+import * as firebase from "firebase";
+import "firebase/firestore";
 
 const SignUpScreen = (props) => {
   const [name, setName] = useState("");
@@ -56,14 +58,36 @@ const SignUpScreen = (props) => {
           type="solid"
           onPress={
             function(){
-              let newuser={
-                name:name,
-                sID:sID,
-                email:email,
-                password:password
-              };
-              setDataJSON(email,newuser);
-              props.navigation.navigate("SignIn");
+              if (name && sID && email && password) {
+                firebase
+                  .auth()
+                  .createUserWithEmailAndPassword(Email, Password)
+                  .then((userCreds) => {
+                    userCreds.user.updateProfile({ displayName: name });
+                    firebase
+                      .firestore()
+                      .collection("users")
+                      .doc(userCreds.user.uid)
+                      .set({
+                        name: name,
+                        sid: sID,
+                        email: email,
+                      })
+                      .then(() => {
+                        alert("Account created successfully!");
+                        console.log(userCreds.user);
+                        props.navigation.navigate("SignIn");
+                      })
+                      .catch((error) => {
+                        alert(error);
+                      });
+                  })
+                  .catch((error) => {
+                    alert(error);
+                  });
+              } else {
+                alert("Fields can not be empty!");
+              }
             }
           }
         ></Button>
